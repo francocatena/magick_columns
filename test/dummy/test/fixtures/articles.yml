@@ -1,0 +1,7 @@
+lightsaber:
+  name: Lightsaber
+  code: 1
+
+ship:
+  name: Ship
+  code: 2

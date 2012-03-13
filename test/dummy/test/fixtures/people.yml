@@ -1,0 +1,14 @@
+obi_wan:
+  name: 'Obi-Wan Kenobi'
+  email: 'obi@sw.com'
+  birth: <%= 1000.years.from_now.to_date.to_s(:db) %>
+
+luke:
+  name: 'Luke Skywalker'
+  email: 'luke@sw.com'
+  birth: <%= 1040.years.from_now.to_date.to_s(:db) %>
+
+anakin:
+  name: 'Anakin Skywalker'
+  email: 'anakin@sw.com'
+  birth: <%= 1020.years.from_now.to_date.to_s(:db) %>
