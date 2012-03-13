@@ -5,20 +5,6 @@ class MagickColumnsTest < ActiveSupport::TestCase
     assert_kind_of Module, MagickColumns
   end
   
-  test 'tokenizer' do
-    terms = MagickColumns::Tokenizer.new('a b').extract_terms
-    assert_equal [['a', 'b']], terms
-    
-    terms = MagickColumns::Tokenizer.new('a or b').extract_terms
-    assert_equal [['a'], ['b']], terms
-    
-    terms = MagickColumns::Tokenizer.new('long_abc').extract_terms
-    assert_equal [['long_abc']], terms
-    
-    terms = MagickColumns::Tokenizer.new('  ').extract_terms
-    assert_equal [], terms
-  end
-  
   test 'map magick column operator' do
     operator = Person.send(:_map_magick_column_operator, '=', 'PostgreSQL')
     assert_equal '=', operator
