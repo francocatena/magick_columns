@@ -21,7 +21,7 @@ module MagickColumns
         or_queries = []
         terms = {}
 
-        _extract_magick_query_terms(query).each_with_index do |or_term, i|
+        Tokenizer.new(query).extract_terms.each_with_index do |or_term, i|
           and_queries = []
           
           or_term.each_with_index do |and_term, j|
@@ -49,25 +49,6 @@ module MagickColumns
       
       def _magick_column_options(type)
         type.kind_of?(Hash) ? type : MagicColumns::DEFAULTS[type.to_sym]
-      end
-
-      def _extract_magick_query_terms(query)
-        ands = Regexp.quote("#{I18n.t('magick_columns.and', default: 'and')}")
-        ors = Regexp.quote("#{I18n.t('magick_columns.or', default: 'or')}")
-        clean_query = query.strip
-          .gsub(%r{\A\s*(#{ands})\s+}, '')
-          .gsub(%r{\s+(#{ands})\s*\z}, '')
-          .gsub(%r{\A\s*(#{ors})\s+}, '')
-          .gsub(%r{\s+(#{ors})\s*\z}, '')
-        or_terms = []
-
-        clean_query.split(%r{\s+(#{ors})\s+}).each do |or_term|
-          or_terms << or_term.split(%r{\s+(#{ands})\s+|\s+}).reject do |t|
-            t =~ %r{\A(#{ands})\z} || t =~ %r{\A(#{ors})\z}
-          end
-        end
-
-        or_terms.reject(&:empty?)
       end
 
       def _map_magick_column_operator(operator, db = nil)

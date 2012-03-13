@@ -5,17 +5,17 @@ class MagickColumnsTest < ActiveSupport::TestCase
     assert_kind_of Module, MagickColumns
   end
   
-  test 'extract magick query terms' do
-    terms = Person.send(:_extract_magick_query_terms, 'a b')
+  test 'tokenizer' do
+    terms = MagickColumns::Tokenizer.new('a b').extract_terms
     assert_equal [['a', 'b']], terms
     
-    terms = Person.send(:_extract_magick_query_terms, 'a or b')
+    terms = MagickColumns::Tokenizer.new('a or b').extract_terms
     assert_equal [['a'], ['b']], terms
     
-    terms = Person.send(:_extract_magick_query_terms, 'long_abc')
+    terms = MagickColumns::Tokenizer.new('long_abc').extract_terms
     assert_equal [['long_abc']], terms
     
-    terms = Person.send(:_extract_magick_query_terms, '  ')
+    terms = MagickColumns::Tokenizer.new('  ').extract_terms
     assert_equal [], terms
   end
   
