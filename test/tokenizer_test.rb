@@ -14,4 +14,15 @@ class TokenizerTest < ActiveSupport::TestCase
     terms = MagickColumns::Tokenizer.new('  ').extract_terms
     assert_equal [], terms
   end
+  
+  test 'clean query' do
+    query = MagickColumns::Tokenizer.new('a b').clean_query
+    assert_equal 'a b', query
+    
+    query = MagickColumns::Tokenizer.new('and a b').clean_query
+    assert_equal 'a b', query
+    
+    query = MagickColumns::Tokenizer.new('  and  and a b or or  ').clean_query
+    assert_equal 'a b', query
+  end
 end
