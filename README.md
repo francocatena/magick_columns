@@ -52,7 +52,7 @@ And you get the people born in the XXI century =)
 ## Custom configuration
 
 If you want to define your own rules, or replace some existing configuration add
-in config/initializers one ruby file, for example magick_columns_config.rb
+in `config/initializers` one ruby file, for example `magick_columns_config.rb`
 
 ```ruby
 MagickColumns.setup do |config|
@@ -79,9 +79,9 @@ end
 ## I18n
 
 If you want to translate the built in rules, you can =). Add a
-magick_columns.en.yml in your config/locales and you are done...
+`magick_columns.en.yml` in your `config/locales` and you are done...
 
-```yaml
+```yml
 'en':
   magick_columns:
     and:
@@ -99,7 +99,7 @@ magick_columns.en.yml in your config/locales and you are done...
       - now
 ```
 
-You can see more examples in the magick_columns/locale folder.
+You can see more examples in the `magick_columns/locales` folder.
 
 ## How to contribute
 
