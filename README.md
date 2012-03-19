@@ -1,14 +1,14 @@
-= MagickColumns
+# MagickColumns
 
 This gem extends ActiveRecord to provide queries built from *simple* strings
 
-== Instalation
+## Instalation
 
 Add to your Gemfile:
 
   gem 'magick_columns'
 
-== Usage
+## Usage
 
 When must declare `has_magick_columns` in your model:
 
@@ -36,7 +36,7 @@ And of course you can "spy" the query with:
 people.to_sql
 ```
 
-== Rules
+## Rules
 
 There is also a set of rules, for tokenize and replace some types of "patterns".
 For example, you can write:
@@ -47,7 +47,7 @@ people = Person.magick_search('from 01/01/2000')
 
 And you get the people born in the XXI century =)
 
-== Custom configuration
+## Custom configuration
 
 If you want to define your own rules, or replace some existing configuration add
 in config/initializers one ruby file, for example magick_columns_config.rb
@@ -74,7 +74,7 @@ MagickColumns.setup do |config|
 end
 ```
 
-== How to contribute
+## How to contribute
 
 If you find what you might think is a bug:
 
