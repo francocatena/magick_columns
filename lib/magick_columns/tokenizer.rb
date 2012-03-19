@@ -1,35 +1,56 @@
 module MagickColumns
   class Tokenizer
-    def initialize(query)
+    def initialize(query = '')
       @query = query
     end
     
     def extract_terms
-      or_terms = []
+      terms = []
 
-      clean_query.split(%r{\s+(#{ors})\s+}).each do |or_term|
-        or_terms << or_term.split(%r{\s+(#{ands})\s+|\s+}).reject do |t|
-          t =~ %r{\A(#{ands})\z} || t =~ %r{\A(#{ors})\z}
+      clean_query.split(%r{\s+(#{MagickColumns.or_operators})\s+}).each do |o_t|
+        unless o_t =~ %r{\A(#{MagickColumns.or_operators})\z}
+          and_terms = []
+          
+          o_t.split(%r{\s+(#{MagickColumns.and_operators})\s+}).each do |t|
+            unless t =~ %r{\A(#{MagickColumns.and_operators})\z}
+              and_terms.concat split_term_in_terms(t)
+            end
+          end
+          
+          terms << and_terms unless and_terms.empty?
         end
       end
 
-      or_terms.reject(&:empty?)
+      terms.reject(&:empty?)
     end
     
     def clean_query
       @query.strip
-        .gsub(%r{\A(\s*(#{ands})\s+)+}, '')
-        .gsub(%r{(\s+(#{ands})\s*)+\z}, '')
-        .gsub(%r{\A(\s*(#{ors})\s+)+}, '')
-        .gsub(%r{(\s+(#{ors})\s*)+\z}, '')
+        .gsub(%r{\A(\s*(#{MagickColumns.and_operators})\s+)+}, '')
+        .gsub(%r{(\s+(#{MagickColumns.and_operators})\s*)+\z}, '')
+        .gsub(%r{\A(\s*(#{MagickColumns.or_operators})\s+)+}, '')
+        .gsub(%r{(\s+(#{MagickColumns.or_operators})\s*)+\z}, '')
     end
     
-    def ands
-      @ands ||= Regexp.quote("#{I18n.t('magick_columns.and', default: 'and')}")
-    end
-    
-    def ors
-      @ors ||= Regexp.quote("#{I18n.t('magick_columns.or', default: 'or')}")
+    def split_term_in_terms(term)
+      term_copy = term.dup
+      terms = []
+      
+      MagickColumns.replacement_rules.each do |rule, options|
+        while(match = term_copy.match(options[:pattern]))
+          term_copy.sub!(options[:pattern], options[:replacement].call(match))
+        end
+      end
+      
+      MagickColumns.tokenize_rules.each do |rule, options|
+        while(match = term_copy.match(options[:pattern]))
+          terms << options[:tokenizer].call(match)
+          
+          term_copy.sub!(options[:pattern], '')
+        end
+      end
+      
+      terms + term_copy.strip.split(/\s+/).map { |t| { term: t } }
     end
   end
 end

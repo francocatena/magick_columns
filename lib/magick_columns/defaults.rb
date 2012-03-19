@@ -1,4 +1,4 @@
-module MagicColumns
+module MagickColumns
   DEFAULTS = {
     string: {
       operator: :like,
@@ -27,5 +27,13 @@ module MagicColumns
       condition: ->(t) { ::Timeliness.parse(t.to_s) },
       convert: ->(t) { ::Timeliness.parse(t.to_s) }
     }
+  }
+  
+  I18N_DEFAULTS = {
+    from: ['from', 'since'],
+    until: ['to', 'until'],
+    and: ['and'],
+    or: ['or'],
+    today: ['today', 'now']
   }
 end

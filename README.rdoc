@@ -12,21 +12,67 @@ Add to your Gemfile:
 
 When must declare `has_magick_columns` in your model:
 
-  class Person < ActiveRecord::Base
-    has_magick_columns name: :string, email: :email, birth: :date
-  end
+```ruby
+class Person < ActiveRecord::Base
+  has_magick_columns name: :string, email: :email, birth: :date
+end
+```
 
 And now you can do something like this:
-  
-  people = Person.magick_search('anakin or luke')
+
+```ruby
+people = Person.magick_search('anakin or luke')
+```
 
 The method returns a Relation, so you can apply any aditional method you want:
 
-  people.order('name').limit(5)
+```ruby
+people.order('name').limit(5)
+```
 
 And of course you can "spy" the query with:
 
-  people.to_sql
+```ruby
+people.to_sql
+```
+
+== Rules
+
+There is also a set of rules, for tokenize and replace some types of "patterns".
+For example, you can write:
+
+```ruby
+people = Person.magick_search('from 01/01/2000')
+```
+
+And you get the people born in the XXI century =)
+
+== Custom configuration
+
+If you want to define your own rules, or replace some existing configuration add
+in config/initializers one ruby file, for example magick_columns_config.rb
+
+```ruby
+MagickColumns.setup do |config|
+  config.and_operators = ['and']
+  config.or_operators = ['or']
+  config.from_operators = ['from', 'since']
+  config.until_operators = ['to', 'until']
+  config.today_operators = ['today', 'now']
+  # Each replacement rule consists in a pattern and a replacement proc or lambda
+  config.replacement_rules[:new_replacement_rule] =
+    pattern: /today/,
+    replacement: ->(match) { Date.today.to_s(:db) }
+  }
+  # Each tokenizer rule consists in a pattern and a tokenizer proc or lambda.
+  # The proc must return a hash with a valid SQL operator and a term for the
+  # condition.
+  config.tokenize_rules[:new_tokenize_rule] = {
+    pattern: /(\A\s*|\s+)(from|since)\s+(\S+)/,
+    tokenizer: ->(match) { { operator: '>=', term: match[3] } }
+  }
+end
+```
 
 == How to contribute
 

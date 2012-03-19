@@ -1,0 +1,15 @@
+'en':
+  magick_columns:
+    and:
+      - and
+    or:
+      - or
+    from:
+      - from
+      - since
+    until:
+      - to
+      - until
+    today:
+      - today
+      - now
