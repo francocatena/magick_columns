@@ -76,6 +76,31 @@ MagickColumns.setup do |config|
 end
 ```
 
+## I18n
+
+If you want to translate the built in rules, you can =). Add a
+magick_columns.en.yml in your config/locales and you are done...
+
+```yaml
+'en':
+  magick_columns:
+    and:
+      - and
+    or:
+      - or
+    from:
+      - from
+      - since
+    until:
+      - to
+      - until
+    today:
+      - today
+      - now
+```
+
+You can see more examples in the magick_columns/locale folder.
+
 ## How to contribute
 
 If you find what you might think is a bug:
