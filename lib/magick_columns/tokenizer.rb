@@ -37,16 +37,22 @@ module MagickColumns
       terms = []
       
       MagickColumns.replacement_rules.each do |rule, options|
-        while(match = term_copy.match(options[:pattern]))
-          term_copy.sub!(options[:pattern], options[:replacement].call(match))
+        pattern = options[:pattern].respond_to?(:call) ?
+          options[:pattern].call : options[:pattern]
+        
+        while(match = term_copy.match(pattern))
+          term_copy.sub!(pattern, options[:replacement].call(match))
         end
       end
       
       MagickColumns.tokenize_rules.each do |rule, options|
-        while(match = term_copy.match(options[:pattern]))
+        pattern = options[:pattern].respond_to?(:call) ?
+          options[:pattern].call : options[:pattern]
+        
+        while(match = term_copy.match(pattern))
           terms << options[:tokenizer].call(match)
           
-          term_copy.sub!(options[:pattern], '')
+          term_copy.sub!(pattern, '')
         end
       end
       
