@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "Build query conditions from simple strings"
   s.description = "Tokenize a simple strings and builds an ActiveRecord query"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2"
