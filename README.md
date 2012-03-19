@@ -6,11 +6,13 @@ This gem extends ActiveRecord to provide queries built from *simple* strings
 
 Add to your Gemfile:
 
-  gem 'magick_columns'
+```ruby
+gem 'magick_columns'
+```
 
 ## Usage
 
-When must declare `has_magick_columns` in your model:
+You must declare `has_magick_columns` in your model:
 
 ```ruby
 class Person < ActiveRecord::Base
