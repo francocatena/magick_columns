@@ -10,7 +10,7 @@ module MagickColumns
       tokenizer: ->(match) { { operator: '<=', term: match[3] } }
     }
   }
-  
+
   REPLACEMENT_RULES = {
     today: {
       pattern: -> { /#{MagickColumns.today_operators}/ },

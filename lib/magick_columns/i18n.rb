@@ -7,7 +7,7 @@ module MagickColumns
     def self.load_path
       Dir["#{locale_dir}/*.{rb,yml}"]
     end
-    
+
     def self.magick_translate(keys, options = {})
       if defined? ::I18n
         defaults = Array(keys).dup

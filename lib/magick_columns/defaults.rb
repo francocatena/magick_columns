@@ -6,7 +6,7 @@ module MagickColumns
       condition: ->(t) { t =~ /.+/ },
       convert: ->(t) { t.to_s }
     },
-    
+
     email: {
       operator: :like,
       mask: '%%%{t}%%',
@@ -20,7 +20,7 @@ module MagickColumns
       condition: ->(t) { t =~ /\A\d+\z/ },
       convert: ->(t) { t.to_i }
     },
-    
+
     date: {
       operator: '=',
       mask: '%{t}',

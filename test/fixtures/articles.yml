@@ -1,7 +1,9 @@
 lightsaber:
+  id: 1
   name: Lightsaber
   code: 1
 
 ship:
+  id: 2
   name: Ship
   code: 2
