@@ -8,43 +8,46 @@ module MagickColumns
   class << self
     private
 
-    def _default_setup_for(config)
-      -> {
-        translation = I18n.magick_translate(config)
+      def default_setup_for config
+        -> {
+          translation = I18n.magick_translate config
 
-        if translation.respond_to?(:map)
-          translation.map { |c| Regexp.quote(c) }.join('|')
-        else
-          translation
-        end
-      }
-    end
+          if translation.respond_to?(:map)
+            translation.map { |c| Regexp.quote c }.join '|'
+          else
+            translation
+          end
+        }
+      end
   end
 
   DYNAMIC_READERS = [
-    :and_operators, :or_operators, :from_operators, :until_operators,
+    :and_operators,
+    :or_operators,
+    :from_operators,
+    :until_operators,
     :today_operators
   ]
 
   # Strings considered "and" spliters
   mattr_writer :and_operators
-  @@and_operators = _default_setup_for :and
+  @@and_operators = default_setup_for :and
 
   # Strings considered "or" spliters
   mattr_writer :or_operators
-  @@or_operators = _default_setup_for :or
+  @@or_operators = default_setup_for :or
 
   # Strings considered "from" terms (like "from 01/01/2012")
   mattr_writer :from_operators
-  @@from_operators = _default_setup_for :from
+  @@from_operators = default_setup_for :from
 
   # Strings considered "until" terms (like "until 01/01/2012")
   mattr_writer :until_operators
-  @@until_operators = _default_setup_for :until
+  @@until_operators = default_setup_for :until
 
   # Strings considered "today" strings (like "from today")
   mattr_writer :today_operators
-  @@today_operators = _default_setup_for :today
+  @@today_operators = default_setup_for :today
 
   # Rules to replace text in the natural string
   mattr_accessor :replacement_rules
@@ -70,4 +73,4 @@ end
 
 autoload :Timeliness, 'timeliness'
 
-require 'magick_columns/railtie' if defined?(Rails)
+require 'magick_columns/railtie' if defined? Rails

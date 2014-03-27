@@ -1,6 +1,6 @@
 module MagickColumns
   class Tokenizer
-    def initialize(query = '')
+    def initialize query = ''
       @query = query
     end
 
@@ -21,7 +21,7 @@ module MagickColumns
         end
       end
 
-      terms.reject(&:empty?)
+      terms.reject &:empty?
     end
 
     def clean_query
@@ -32,7 +32,7 @@ module MagickColumns
         .gsub(%r{(\s+(#{MagickColumns.or_operators})\s*)+\z}, '')
     end
 
-    def split_term_in_terms(term)
+    def split_term_in_terms term
       term_copy = term.dup
       terms = []
 
@@ -40,8 +40,8 @@ module MagickColumns
         pattern = options[:pattern].respond_to?(:call) ?
           options[:pattern].call : options[:pattern]
 
-        while(match = term_copy.match(pattern))
-          term_copy.sub!(pattern, options[:replacement].call(match))
+        while match = term_copy.match(pattern)
+          term_copy.sub! pattern, options[:replacement].call(match)
         end
       end
 
@@ -49,10 +49,10 @@ module MagickColumns
         pattern = options[:pattern].respond_to?(:call) ?
           options[:pattern].call : options[:pattern]
 
-        while(match = term_copy.match(pattern))
+        while match = term_copy.match(pattern)
           terms << options[:tokenizer].call(match)
 
-          term_copy.sub!(pattern, '')
+          term_copy.sub! pattern, ''
         end
       end
 

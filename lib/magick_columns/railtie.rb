@@ -8,8 +8,8 @@ module MagickColumns
       self.class.add_locale_path config
     end
 
-    def self.add_locale_path(config)
-      config.i18n.railties_load_path.unshift(*MagickColumns::I18n.load_path)
+    def self.add_locale_path config
+      config.i18n.railties_load_path.unshift *MagickColumns::I18n.load_path
     end
   end
 end

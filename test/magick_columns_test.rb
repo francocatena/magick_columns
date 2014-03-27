@@ -6,13 +6,13 @@ class MagickColumnsTest < ActiveSupport::TestCase
   end
 
   test 'map magick column operator' do
-    operator = Person.send(:_map_magick_column_operator, '=', 'PostgreSQL')
+    operator = Person.send(:map_magick_column_operator, '=', 'PostgreSQL')
     assert_equal '=', operator
 
-    operator = Person.send(:_map_magick_column_operator, :like)
+    operator = Person.send(:map_magick_column_operator, :like)
     assert_equal 'ILIKE', operator
 
-    operator = Person.send(:_map_magick_column_operator, :like, 'MySQL')
+    operator = Person.send(:map_magick_column_operator, :like, 'MySQL')
     assert_equal 'LIKE', operator
   end
 

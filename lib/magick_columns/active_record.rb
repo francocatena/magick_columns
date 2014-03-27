@@ -5,13 +5,13 @@ module MagickColumns
       @@_magick_columns[name] ||= []
 
       options.each do |field, type|
-        column_options = _magick_column_options(type)
+        column_options = magick_column_options(type)
 
         @@_magick_columns[name] << { field: field }.merge(column_options)
       end
     end
 
-    def magick_search(query)
+    def magick_search query
       or_queries = []
       terms = {}
 
@@ -23,7 +23,7 @@ module MagickColumns
 
           @@_magick_columns[name].each_with_index do |column, k|
             if column[:condition].call(and_term[:term])
-              operator = and_term[:operator] || _map_magick_column_operator(column[:operator])
+              operator = and_term[:operator] || map_magick_column_operator(column[:operator])
               terms[:"t_#{i}_#{j}_#{k}"] = column[:mask] % {t: and_term[:term]}
 
               mini_query << "#{column[:field]} #{operator} :t_#{i}_#{j}_#{k}"
@@ -36,16 +36,16 @@ module MagickColumns
         or_queries << and_queries.map { |a_q| "(#{a_q})" }.join(' AND ')
       end
 
-      where(or_queries.map { |o_q| "(#{o_q})" }.join(' OR '), terms)
+      where or_queries.map { |o_q| "(#{o_q})" }.join(' OR '), terms
     end
 
     private
 
-    def _magick_column_options(type)
+    def magick_column_options(type)
       type.kind_of?(Hash) ? type : MagickColumns::DEFAULTS[type.to_sym]
     end
 
-    def _map_magick_column_operator(operator, db = nil)
+    def map_magick_column_operator(operator, db = nil)
       db ||= ::ActiveRecord::Base.connection.adapter_name
 
       operator == :like ? (db == 'PostgreSQL' ? 'ILIKE' : 'LIKE') : operator
