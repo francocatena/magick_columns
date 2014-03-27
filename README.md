@@ -2,6 +2,8 @@
 
 This gem extends ActiveRecord to provide queries built from *simple* strings
 
+[![Build Status](https://travis-ci.org/cirope/magick_columns.svg?branch=master)](https://travis-ci.org/cirope/magick_columns)
+
 ## Instalation
 
 Add to your Gemfile:
